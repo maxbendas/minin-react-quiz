@@ -1,17 +1,33 @@
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 import classes from './Layout.module.scss';
+import MenuToggle from "../../components/Navigation/MenuToggle/MenuToggle";
+import Drawer from "../../components/Navigation/Drawer/Drawer";
 
-class Layout extends Component {
-    render() {
-        return (
-            <div className={classes.Layout}>
+const Layout = ({children}) => {
+    const [menu, setMenu] = useState(false)
 
-                <main>
-                    {this.props.children}
-                </main>
-            </div>
-        );
+    const toggleMenuHandler = () => {
+        setMenu(!menu)
     }
+    const menuCloseHandler = () => {
+        setMenu(false)
+    }
+
+    return (
+        <div className={classes.Layout}>
+            <Drawer
+                isOpen={menu}
+                onClose={menuCloseHandler}
+            />
+            <MenuToggle
+                isOpen={menu}
+                onToggle={toggleMenuHandler}
+            />
+            <main>
+                {children}
+            </main>
+        </div>
+    );
 }
 
 export default Layout;
