@@ -3,7 +3,6 @@ import classes from './Auth.module.scss';
 import Button from "../../components/UI/Button/Button";
 import Input from "../../components/UI/Input/Input";
 import is from 'is_js'
-import {createControl} from "../../form/formFramework";
 
 // function validateEmail(email) {
 //     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -15,11 +14,6 @@ class Auth extends Component {
         isFormValid: false,
         formControls: {
             email:
-            //     createControl({
-            //     label: 'Email',
-            //     type: 'email',
-            //     errorMessage: 'Enter the correct email'
-            // }, {required: true, email:true}),
                 {
                     value: '',
                     type: 'email',
