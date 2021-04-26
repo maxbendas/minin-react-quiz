@@ -2,40 +2,17 @@ import React, {Component} from 'react';
 import classes from './Quiz.module.scss'
 import ActiveQuiz from "../../components/ActiveQuiz/ActiveQuiz";
 import FinishedQuiz from "../../components/FinishedQuiz/FinishedQuiz";
+import axios from "../../axios/axios-quiz";
+import Loader from "../../components/UI/Loader/Loader";
 
 class Quiz extends Component {
     state = {
+        loading:true,
         results:{}, // { [id]: 'success' || 'error' }
         activeQuestion: 0,
         isFinish: false,
         answerState: null, // { [id]: 'success' || 'error' }
-        quiz: [
-            {
-                question: 'What color the sky?',
-                rightAnswerId: 1,
-                id:1,
-                answers: [
-                    {text: 'Blue', id: 1},
-                    {text: 'Red', id: 2},
-                    {text: 'Black', id: 3},
-                    {text: 'Green', id: 4}
-                ]
-            },
-            {
-                question: 'What color the sun?',
-                rightAnswerId: 2,
-                id:2,
-                answers: [
-                    {text: 'Blue', id: 1},
-                    {text: 'Yellow', id: 2},
-                    {text: 'Black', id: 3},
-                    {text: 'Green', id: 4}
-                ]
-            }
-        ]
-    }
-    componentDidMount() {
-        console.log(this.props.match.params.id)
+        quiz: []
     }
 
     onAnswerClickHandler = (answerId) => {
@@ -88,12 +65,28 @@ class Quiz extends Component {
         })
     }
 
+    async componentDidMount() {
+        try {
+            const response = await axios.get(`/quizes/${this.props.match.params.id}.json`)
+            const quiz = response.data
+            console.log(quiz)
+            this.setState({
+                quiz,
+                loading: false
+            })
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
     render() {
         return (
             <div className={classes.Quiz}>
                 <div className={classes.QuizWrapper}>
 
-                    { this.state.isFinish ?
+                    { this.state.loading?
+                        <Loader/>:
+                        this.state.isFinish ?
                         <FinishedQuiz
                             results={this.state.results}
                             quiz={this.state.quiz}
